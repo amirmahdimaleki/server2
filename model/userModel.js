@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
 
-const TodoSchema = new mongoose.Schema({
-  text: {type: String, required:true},
-  title: {type: String},
+const UserSchema = new mongoose.Schema({
   name: {type: String, required:true},
   age: {type: Number, required:true},
   linkedIn: {type: String, required:true},
@@ -17,4 +15,4 @@ const TodoSchema = new mongoose.Schema({
 );
 
 
-module.exports = mongoose.model("Todo", TodoSchema);
+module.exports = mongoose.model("User", UserSchema);

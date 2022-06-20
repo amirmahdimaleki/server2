@@ -5,7 +5,7 @@ const getTheList = async (req, res)=>{
         const todos = await TodoList.find({});
         res.status(200).json({todos})
     } catch (error) {
-        res.status(500).json({msg:error})
+        res.status(404).json({msg:"NOT FOUND"})
     }
 };
 
@@ -48,9 +48,78 @@ const deleteTodo = async (req, res)=>{
 };
 
 
+// ! ============================================= user ===============================================
+
+const User = require('../model/userModel');
+
+
+const getUsers = async (req, res)=>{
+    try {
+        const users = await User.find({});
+        res.status(200).json({users})
+    } catch (error) {
+        res.status(500).json({msg:error})
+    }
+};
+
+
+const createUser = async (req, res)=>{
+    try {
+        
+        // const users = await User.create({
+        //     name: req.body.name,
+        //     age: req.body.age,
+        //     linkedIn: req.body.linkedIn,
+        //     github: req.body.github,
+        //     image: req.body.image,
+        //     languages: req.body.languages,
+        //     skills: req.body.skills
+        // });
+        const users = new User(req.body)
+        const result = await users.save()
+        res.status(201).json(result);
+    } catch (error) {
+        res.status(500).json({ msg: error });
+    }
+};
+
+
+const updateUser = async (req, res)=>{
+    const { id: _id } = req.params;
+    const user = req.body;
+    try {
+        const updatedUser = await User.findByIdAndUpdate(
+        { _id },
+        { ...user, _id },
+        { new: true }
+        );
+        res.status(201).json({updatedUser, massage:`Updated user ${_id}`});
+    } catch (err) {
+        res.status(500).json({ msg: error });
+    }
+};
+
+
+const deleteUser = async (req, res)=>{
+    const {id:userId} = req.params;
+    try {
+        const users = await User.findByIdAndDelete({_id:userId})
+
+        res.status(200).json({users,  massage:`Deleted user ${_id}`})
+    } catch (error) {
+        res.status(500).json({msg:error})
+    }
+};
+
+
+
 module.exports ={
     getTheList,
     createTodo,
     updateTodo,
-    deleteTodo
+    deleteTodo,
+    getUsers,
+    createUser,
+    updateUser,
+    deleteUser
 }

@@ -4,14 +4,20 @@ const {
     getTheList,
     createTodo,
     updateTodo,
-    deleteTodo
+    deleteTodo,
+    getUsers,
+    createUser,
+    updateUser,
+    deleteUser
 } = require('../controllers/controller')
 
 const router = express.Router();
 
-router.get('/', getTheList);
-router.get('/', createTodo);
-router.get('/:id', updateTodo);
-router.get('/:id', deleteTodo);
+router.route('/')
+  .get(getTheList, getUsers)
+  .post(createTodo, createUser);
+router.route('/:id')
+  .put(updateTodo, updateUser)
+  .delete(deleteTodo, deleteUser);
 
 module.exports = router;
